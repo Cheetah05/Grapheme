@@ -9,7 +9,13 @@ import uk.me.graphe.shared.messages.AddPrivsMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
 import uk.me.graphe.shared.messages.LogoutMessage;
+import uk.me.graphe.client.Graphemeui;
+import uk.me.graphe.client.UserPanel;
+import uk.me.graphe.client.ClientOT;
 
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -33,7 +39,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserPanel extends Composite {
+public class UserPanel extends Composite implements EntryPoint {
 	private static UiBinderUserPanel uiBinder = GWT.create(UiBinderUserPanel.class);
 	interface UiBinderUserPanel extends UiBinder<Widget, UserPanel> {}
 	private static String mode = null;
@@ -48,6 +54,35 @@ public class UserPanel extends Composite {
 	TextBox openIdUrl;
 	@UiField
     Button login;
+	
+
+    public final static Graphemeui editor = new Graphemeui();
+    
+    public void onModuleLoad() {
+                
+        ClientOT.getInstance().connect();
+        
+        if(Window.Location.getParameter("action") == "userauth"){
+            verify();
+        }else if(Window.Location.getHash().substring(1) != ""){
+            showGraph(Integer.parseInt(Window.Location.getHash().substring(1)));
+        }else{
+            showLogin();
+        }
+        
+    }
+    
+    public static void showGraph(int id){
+        clear();
+        editor.show();
+        ClientOT.getInstance().requestGraph(id);
+    }
+    
+    public static void clear(){
+        //clears all ui elements
+        RootPanel.get("canvas").clear();
+        
+    }
 	
 	public static void requestGraphList(){
 		GraphListMessage glm = new GraphListMessage();
@@ -174,7 +209,7 @@ public class UserPanel extends Composite {
 		
 	}
 	
-	public static void show(){
+	public static void showLogin(){
 		//show user panel
 		HorizontalPanel outerPanel = new HorizontalPanel();
 		outerPanel.add(new HTML("<div style=\"margin-top: 2em; margin-left: 3em;\">" +
@@ -267,5 +302,9 @@ public class UserPanel extends Composite {
         AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
         ServerChannel.getInstance().send(apm.toJson());   
     }
+    
+
+    
+    
 
 }
