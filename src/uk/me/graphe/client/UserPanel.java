@@ -90,12 +90,12 @@ public class UserPanel extends Composite implements EntryPoint {
         
     }
 	
-	public static void requestGraphList(){
+	public static void DDrequestGraphList(){
 		GraphListMessage glm = new GraphListMessage();
 		ServerChannel.getInstance().send(glm.toJson());
 	}
 	
-	public static void displayGraphList(String list, String nList){
+	public static void DDdisplayGraphList(String list, String nList){
 	    
 	    list = list.substring(1, list.length() - 1);
 	    Window.alert(list);
@@ -264,16 +264,16 @@ public class UserPanel extends Composite implements EntryPoint {
 		
 	}
 	
-	public static void logout(){
+	public static void asdlogout(){
         ServerChannel.getInstance().send(new LogoutMessage().toJson());
 	}
 	
-    public static void shareGraph(String email, String graphId) {
+    public static void asdshareGraph(String email, String graphId) {
         AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
         ServerChannel.getInstance().send(apm.toJson());   
     }
     
-    public static void makeGraph() {
+    public static void asdmakeGraph() {
         MakeGraphMessage mgm = new MakeGraphMessage();
         ServerChannel.getInstance().send(mgm.toJson());   
     }

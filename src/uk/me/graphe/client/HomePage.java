@@ -1,5 +1,8 @@
 package uk.me.graphe.client;
 
+import uk.me.graphe.client.communications.ServerChannel;
+import uk.me.graphe.shared.messages.UserAuthMessage;
+
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -16,7 +19,7 @@ public class HomePage extends HorizontalPanel
 	
 	
 	public HomePage ()
-	{
+	{	
 		pnlLogin = new VerticalPanel();
 		txtOpenId = new TextBox();
 		
@@ -46,7 +49,16 @@ public class HomePage extends HorizontalPanel
 			{
 				if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
-					// TODO: Login here
+		            if (txtOpenId.getText().trim().equals(""))
+		            {
+		            	// TODO: Display some error here.
+		            }
+		            else
+		            {
+		            	ClientEntry.loadingScreen.show("");
+			        	UserAuthMessage uam = new UserAuthMessage(txtOpenId.getText());
+						ServerChannel.getInstance().send(uam.toJson());
+		            }
 				}
 			}			
 		});		

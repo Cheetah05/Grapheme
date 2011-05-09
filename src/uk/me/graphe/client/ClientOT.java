@@ -204,7 +204,9 @@ public class ClientOT {
             	UserAuthMessage uam = (UserAuthMessage)m;
             	if(uam.isAuthd()){
             	    //show graph list
-            	    UserPanel.requestGraphList();
+            	    //UserPanel.requestGraphList();
+            		GraphListMessage glm = new GraphListMessage();
+            		ServerChannel.getInstance().send(glm.toJson());
             	}else if(uam.getEmailAddress() == null){
                 	String reUrl = uam.getRedirectionUrl();
                     Window.Location.assign(reUrl);
@@ -216,7 +218,7 @@ public class ClientOT {
                 UserPanel.showGraph(ogm.getId());
             } else if (m.getMessage().equals("graphList")) {
             	GraphListMessage glm = (GraphListMessage)m;
-            	UserPanel.displayGraphList(glm.getGraphList(), glm.getNameList());
+            	ClientEntry.displayGraphList(glm.getGraphList(), glm.getNameList());
             } else if (m.getMessage().equals("chat")) {
                 // show message here
                 ChatMessage cm = (ChatMessage) m;
