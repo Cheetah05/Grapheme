@@ -179,42 +179,6 @@ public class UserPanel extends Composite implements EntryPoint {
 		    timer.schedule(1000); 
 	}
 	
-	public static void getEmailAddress(){
-		
-	    final TextBox openIdUrl = new TextBox();
-	    final Button login = new Button("Sign in");
-	    
-		openIdUrl.addKeyDownHandler(new KeyDownHandler()
-		{
-			@Override
-			public void onKeyDown(KeyDownEvent kc)
-			{
-				if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-				{
-					login.click();
-				}
-			}
-		});
-	    
-	    
-	    login.addClickHandler(new ClickHandler() {
-	
-	        public void onClick(ClickEvent event) {
-	            if (openIdUrl.getText() == null || openIdUrl.getText().isEmpty()) {
-	            	Window.alert("Please enter your openIdUrl.");
-	                return;
-	            }
-	            String url = openIdUrl.getText();
-	            pnlUser.clear();
-	        	pnlUser.add(new HTML("Please wait..."));
-	        	UserAuthMessage uam = new UserAuthMessage(url);
-				ServerChannel.getInstance().send(uam.toJson());
-	        }
-	    });
-		
-		
-	}
-	
 	public static void showLogin(){
 		//show user panel
 		HorizontalPanel outerPanel = new HorizontalPanel();
