@@ -9,6 +9,7 @@ import uk.me.graphe.shared.messages.AddPrivsMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
 import uk.me.graphe.shared.messages.LogoutMessage;
+import uk.me.graphe.shared.messages.MakeGraphMessage;
 import uk.me.graphe.client.Graphemeui;
 import uk.me.graphe.client.UserPanel;
 import uk.me.graphe.client.ClientOT;
@@ -80,7 +81,12 @@ public class UserPanel extends Composite implements EntryPoint {
     
     public static void clear(){
         //clears all ui elements
+        RootPanel.get("toolbox").clear();
         RootPanel.get("canvas").clear();
+        RootPanel.get("chat").clear();
+        RootPanel.get("graphInfo").clear();
+        RootPanel.get("ToolInfo").clear();
+        
         
     }
 	
@@ -294,13 +300,18 @@ public class UserPanel extends Composite implements EntryPoint {
 		
 	}
 	
-	public void logout(){
+	public static void logout(){
         ServerChannel.getInstance().send(new LogoutMessage().toJson());
 	}
 	
-    public void shareGraph(String email, String graphId) {
+    public static void shareGraph(String email, String graphId) {
         AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
         ServerChannel.getInstance().send(apm.toJson());   
+    }
+    
+    public static void makeGraph() {
+        MakeGraphMessage mgm = new MakeGraphMessage();
+        ServerChannel.getInstance().send(mgm.toJson());   
     }
 
 }
