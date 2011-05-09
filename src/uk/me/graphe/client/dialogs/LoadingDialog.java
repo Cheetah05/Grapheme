@@ -42,16 +42,21 @@ public class LoadingDialog extends PopupPanel
         return sInstance;
 	}
 	
+	public static LoadingDialog getInstance ()
+	{
+        return sInstance;
+	}
+	
 	public void show (String s)
 	{
-		parent.isHotkeysEnabled = false;
+		if (parent != null) parent.isHotkeysEnabled = false;
 		super.center();
 		super.show();		
 	}
 	
 	public void hide (String s)
 	{
-		parent.isHotkeysEnabled = true;
+		if (parent != null) parent.isHotkeysEnabled = true;
 		super.hide();
 	}
 }
