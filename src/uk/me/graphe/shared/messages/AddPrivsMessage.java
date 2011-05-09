@@ -14,6 +14,10 @@ public class AddPrivsMessage extends Message {
         this.graphId = graphId;
     }
     
+    public AddPrivsMessage(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+    
     @Override
     public String getMessage() {
         return "addPrivs";

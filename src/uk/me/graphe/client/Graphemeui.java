@@ -19,6 +19,7 @@ import uk.me.graphe.shared.VertexDirection;
 import uk.me.graphe.shared.graphmanagers.GraphManager2d;
 import uk.me.graphe.shared.graphmanagers.GraphManager2dFactory;
 import uk.me.graphe.shared.jsonwrapper.JSONImplHolder;
+import uk.me.graphe.shared.messages.AddPrivsMessage;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -486,4 +487,9 @@ public class Graphemeui {
 	        graphManager.invalidate();	
 		}
 	}
+	
+    public void shareGraph(String email) {
+        AddPrivsMessage apm = new AddPrivsMessage(email);
+        ServerChannel.getInstance().send(apm.toJson());   
+    }
 }

@@ -96,7 +96,9 @@ public class ShareGraphDialog extends PopupPanel
 	{
 		if (isValid)
 		{
-			//TODO: Here is where you actually call the method to share the graph
+			//actually call the method to share the graph
+		    parent.shareGraph(txtParam.getText());
+		    
 			parent.isHotkeysEnabled = true;
 			super.hide();
 		}
