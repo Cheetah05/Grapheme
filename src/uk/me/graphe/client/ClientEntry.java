@@ -21,7 +21,9 @@ public class ClientEntry implements EntryPoint
 
 	@Override
 	public void onModuleLoad ()
-	{ 
+	{
+		ClientOT.getInstance().connect();
+		
         if (Window.Location.getParameter("action") == "userauth")
         {
         	loadingScreen.show("");
