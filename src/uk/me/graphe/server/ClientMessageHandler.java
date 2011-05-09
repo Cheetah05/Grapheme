@@ -188,16 +188,22 @@ public class ClientMessageHandler extends Thread {
         	
         } else if (message.getMessage().equals("graphList")){
             //get list of ids for this user
-            List<String> ids = mUserDatabase.getGraphs(c.getUserId());
-            List<String> names = new ArrayList<String> ();
-            //get name of each database
-            for (int i = 0; i < ids.size(); i++){
-                System.err.println(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
-                names.add(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+            try{
+                List<String> ids = mUserDatabase.getGraphs(c.getUserId());
+                List<String> names = new ArrayList<String> ();
+                //get name of each graph
+                for (int i = 0; i < ids.size(); i++){
+                    System.err.println(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+                    names.add(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+                }
+    
+            	GraphListMessage glm = new GraphListMessage(ids.toString(), names.toString());
+            	ClientMessageSender.getInstance().sendMessage(c, glm);
+            	
+            }catch(NullPointerException e){
+                GraphListMessage glm = new GraphListMessage("","");
+                ClientMessageSender.getInstance().sendMessage(c, glm);
             }
-
-        	GraphListMessage glm = new GraphListMessage(ids.toString(), names.toString());
-        	ClientMessageSender.getInstance().sendMessage(c, glm);
         } else if (message.getMessage().equals("sgp")) {
             SetGraphPropertiesMessage sgpm = (SetGraphPropertiesMessage) message;
             DataManager.setGraphProperties(c.getCurrentGraphId(), sgpm);
@@ -216,8 +222,7 @@ public class ClientMessageHandler extends Thread {
         } else if (message.getMessage().equals("addPrivs")){
             AddPrivsMessage apm = (AddPrivsMessage) message;
             mUserDatabase.setGraphsToUsers(apm.getEmailAddress(),c.getUserId());
-        }
-            else if (message.isOperation()) {
+        } else if (message.isOperation()) {
             mProcessor.submit(c, (GraphOperation) message);
         } else {
             throw new Error("got unexpected message from client");
