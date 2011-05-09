@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import uk.me.graphe.client.Chat.UiBinderChat;
 import uk.me.graphe.client.GraphList;
 import uk.me.graphe.client.communications.ServerChannel;
+import uk.me.graphe.shared.messages.AddPrivsMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
 import uk.me.graphe.shared.messages.LogoutMessage;
@@ -261,5 +262,10 @@ public class UserPanel extends Composite {
 	public void logout(){
         ServerChannel.getInstance().send(new LogoutMessage().toJson());
 	}
+	
+    public void shareGraph(String email, String graphId) {
+        AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
+        ServerChannel.getInstance().send(apm.toJson());   
+    }
 
 }
