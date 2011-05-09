@@ -27,6 +27,5 @@
 				<g:Button styleName='{style.login}' ui:field='login'>Login</g:Button>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
-		<g:Button ui:field='btnChat' />
 	</g:VerticalPanel>
 </ui:UiBinder>

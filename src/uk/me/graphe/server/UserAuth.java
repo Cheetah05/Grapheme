@@ -70,16 +70,11 @@ public class UserAuth {
 	        
 	        DiscoveryStore.addDisc(authKey, discovered);
 	        
-	        if(!discovered.isVersion2()){
-	        	//TODO: this might be the root of google problem, keep for now
-	            uam.setRedirectionUrl(authReq.getDestinationUrl(true));
-	            //return to the client so we can do a JSNI redirect
-	            return uam;
-	            } else {
-	            uam.setRedirectionUrl(authReq.getDestinationUrl(true));
-	            //return to the client so we can do a JSNI redirect
-	            return uam;
-	        }
+        	//TODO: this might be the root of google problem, keep for now
+            uam.setRedirectionUrl(authReq.getDestinationUrl(true));
+            //return to the client so we can do a JSNI redirect
+            return uam;
+
         } catch (MessageException ex) {
 	        return null;
 	    } catch (ConsumerException cex){

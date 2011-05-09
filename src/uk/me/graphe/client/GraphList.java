@@ -14,7 +14,7 @@ public class GraphList extends VerticalPanel{
 	{
 		@Override
 		public void onClick(ClickEvent e) {
-			// TODO: LOAD GRAPH				
+			// TODO: LOAD GRAPH		
 		}
 	};
 	private int iterator;
@@ -23,10 +23,9 @@ public class GraphList extends VerticalPanel{
 		iterator = 0;
 	}
 	
-	public void test(){
-		String[] names = new String[]{"Graph 1", "Graph 2", "Graph 3"};
-		for(String s: names){
-			addGraph(s, iterator);
+	public void init(String[] gId, String[] gName){
+		for(String s: gName){
+			addGraph(s, Integer.parseInt(gId[iterator]));
 			iterator++;
 		}
 	}

@@ -1,6 +1,9 @@
 package uk.me.graphe.client;
 
+import java.util.StringTokenizer;
+
 import uk.me.graphe.client.Chat.UiBinderChat;
+import uk.me.graphe.client.GraphList;
 import uk.me.graphe.client.communications.ServerChannel;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
@@ -23,6 +26,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,15 +45,26 @@ public class UserPanel extends Composite {
 	@UiField
 	TextBox openIdUrl;
 	@UiField
-    static
-	Button login;
+    Button login;
 	
 	public static void requestGraphList(){
 		GraphListMessage glm = new GraphListMessage();
 		ServerChannel.getInstance().send(glm.toJson());
 	}
 	
-	public static void displayGraphList(String list){
+	public static void displayGraphList(String list, String nList){
+	    
+	    list = list.substring(1, list.length() - 1);
+	    Window.alert(list);
+	    Window.alert(nList);
+	    
+	    String[] aList = list.split(",");
+        String[] nAListNames = nList.split(",");
+
+	    final GraphList gList = new GraphList();
+	    gList.init(aList, nAListNames);
+	    
+	    RootPanel.get("canvas").add(gList);
 	    
 	}
 	

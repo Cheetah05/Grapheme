@@ -50,4 +50,6 @@ public interface Database {
      * @param title Name to be set to
      */
     void rename(int id, String title);
+    
+    String getName(int id);
 }

@@ -137,7 +137,7 @@ public class ClientOT {
 
             @Override
             public void run() {
-                mSc.send(new RequestGraphMessage(1, 0).toJson());
+                mSc.send(new RequestGraphMessage(Integer.parseInt(Window.Location.getHash().substring(1)), 0).toJson());
                 Console.log("sent ogm");
                 Window.alert("SENT OGM");
                 mServer = true;
@@ -213,7 +213,7 @@ public class ClientOT {
 
             } else if (m.getMessage().equals("graphList")) {
             	GraphListMessage glm = (GraphListMessage)m;
-            	UserPanel.displayGraphList(glm.getGraphList());
+            	UserPanel.displayGraphList(glm.getGraphList(), glm.getNameList());
             } else if (m.getMessage().equals("chat")) {
                 // show message here
                 ChatMessage cm = (ChatMessage) m;
@@ -233,7 +233,6 @@ public class ClientOT {
 
         }
         Console.log("I have this many vertices:");
-        //Console.log("" + mGraph.getVertexDrawables().size());
 
         Console.log("done handling messages");
 

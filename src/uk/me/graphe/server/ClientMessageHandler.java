@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.me.graphe.server.database.UserDatabase;
+import uk.me.graphe.server.database.Database;
 import uk.me.graphe.server.ot.GraphProcessor;
 import uk.me.graphe.server.UserAuth;
 import uk.me.graphe.shared.graphmanagers.OTGraphManager2d;
@@ -161,6 +162,8 @@ public class ClientMessageHandler extends Thread {
         			//create user if it doesn't exist
         			if(!mUserDatabase.exists(uam.getId(), uam.getEmailAddress())){
         				mUserDatabase.newUser(uam.getId(), uam.getEmailAddress());
+        				//TODO: remove this is it's for testing
+        				mUserDatabase.addGraph(uam.getId(), "1");
         			}
         			
         			String balls[] = mUserDatabase.getUserIDs();
@@ -184,7 +187,16 @@ public class ClientMessageHandler extends Thread {
         	}
         	
         } else if (message.getMessage().equals("graphList")){
-        	GraphListMessage glm = new GraphListMessage(mUserDatabase.getGraphs(c.getUserId()).toString());
+            //get list of ids for this user
+            List<String> ids = mUserDatabase.getGraphs(c.getUserId());
+            List<String> names = new ArrayList<String> ();
+            //get name of each database
+            for (int i = 0; i < ids.size(); i++){
+                System.err.println(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+                names.add(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+            }
+
+        	GraphListMessage glm = new GraphListMessage(ids.toString(), names.toString());
         	ClientMessageSender.getInstance().sendMessage(c, glm);
         } else if (message.getMessage().equals("sgp")) {
             SetGraphPropertiesMessage sgpm = (SetGraphPropertiesMessage) message;

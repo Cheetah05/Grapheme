@@ -5,6 +5,7 @@ war/WEB-INF
 .classpath
 .project
 .settings
-war/WEB-INF/classes
+war/WEB-INF/*
 war/grapheme
 docs/*
+config/*
