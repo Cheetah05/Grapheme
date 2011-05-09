@@ -11,9 +11,9 @@ public class GraphListFactory implements ConversionFactory{
 	    public Message make(JSONObject o) {
 
 	        try {
-	            String list = o.getString("list");
-
-	            return new GraphListMessage(list);
+                String list = o.getString("list");
+                String nList = o.getString("nList");
+	            return new GraphListMessage(list, nList);
 	        } catch (JSONException e) {
 	            throw new Error(e);
 	        }

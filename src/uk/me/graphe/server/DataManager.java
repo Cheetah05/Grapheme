@@ -105,4 +105,8 @@ public class DataManager {
             SetGraphPropertiesMessage sgpm) {
         
     }
+    
+    public static String getGraphName(int id){
+        return mDatabase.getName(id);
+    }
 }

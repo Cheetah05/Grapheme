@@ -1,10 +1,21 @@
 package uk.me.graphe.client;
 
+import java.util.StringTokenizer;
+
 import uk.me.graphe.client.Chat.UiBinderChat;
+import uk.me.graphe.client.GraphList;
 import uk.me.graphe.client.communications.ServerChannel;
+import uk.me.graphe.shared.messages.AddPrivsMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
+import uk.me.graphe.shared.messages.LogoutMessage;
+import uk.me.graphe.client.Graphemeui;
+import uk.me.graphe.client.UserPanel;
+import uk.me.graphe.client.ClientOT;
 
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,11 +34,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserPanel extends Composite {
+public class UserPanel extends Composite implements EntryPoint {
 	private static UiBinderUserPanel uiBinder = GWT.create(UiBinderUserPanel.class);
 	interface UiBinderUserPanel extends UiBinder<Widget, UserPanel> {}
 	private static String mode = null;
@@ -41,15 +53,55 @@ public class UserPanel extends Composite {
 	@UiField
 	TextBox openIdUrl;
 	@UiField
-    static
-	Button login;
+    Button login;
+	
+
+    public final static Graphemeui editor = new Graphemeui();
+    
+    public void onModuleLoad() {
+                
+        ClientOT.getInstance().connect();
+        
+        if(Window.Location.getParameter("action") == "userauth"){
+            verify();
+        }else if(Window.Location.getHash().substring(1) != ""){
+            showGraph(Integer.parseInt(Window.Location.getHash().substring(1)));
+        }else{
+            showLogin();
+        }
+        
+    }
+    
+    public static void showGraph(int id){
+        clear();
+        editor.show();
+        ClientOT.getInstance().requestGraph(id);
+    }
+    
+    public static void clear(){
+        //clears all ui elements
+        RootPanel.get("canvas").clear();
+        
+    }
 	
 	public static void requestGraphList(){
 		GraphListMessage glm = new GraphListMessage();
 		ServerChannel.getInstance().send(glm.toJson());
 	}
 	
-	public static void displayGraphList(String list){
+	public static void displayGraphList(String list, String nList){
+	    
+	    list = list.substring(1, list.length() - 1);
+	    Window.alert(list);
+	    Window.alert(nList);
+	    
+	    String[] aList = list.split(",");
+        String[] nAListNames = nList.split(",");
+
+	    final GraphList gList = new GraphList();
+	    gList.init(aList, nAListNames);
+	    
+	    RootPanel.get("canvas").add(gList);
 	    
 	}
 	
@@ -157,7 +209,7 @@ public class UserPanel extends Composite {
 		
 	}
 	
-	public static void show(){
+	public static void showLogin(){
 		//show user panel
 		HorizontalPanel outerPanel = new HorizontalPanel();
 		outerPanel.add(new HTML("<div style=\"margin-top: 2em; margin-left: 3em;\">" +
@@ -241,5 +293,18 @@ public class UserPanel extends Composite {
 	    RootPanel.get("canvas").add(outerPanel);
 		
 	}
+	
+	public void logout(){
+        ServerChannel.getInstance().send(new LogoutMessage().toJson());
+	}
+	
+    public void shareGraph(String email, String graphId) {
+        AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
+        ServerChannel.getInstance().send(apm.toJson());   
+    }
+    
+
+    
+    
 
 }

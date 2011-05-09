@@ -28,6 +28,8 @@ public class OTGraphManager2dStore {
         id = graph.getGraphId();
         stateid = graph.getStateId();
         name = graph.getName();
+        if (name == null || name.isEmpty())
+            System.out.println("NO NAME SUPPLIED");
     }
     
     public OTGraphManager2dStore() {

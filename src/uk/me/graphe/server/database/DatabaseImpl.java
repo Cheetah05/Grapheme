@@ -57,6 +57,16 @@ public class DatabaseImpl implements Database{
         return (int) mCollection.getCount();
     }
     
+    
+    @Override
+    public String getName(int key) {
+        List<OTGraphManager2dStore> retrieves = mData.find(OTGraphManager2dStore.class, "id =", key).asList();
+        if (retrieves == null || retrieves.size() != 1)
+            return null;
+        OTGraphManager2dStore retrieve = retrieves.get(0);
+        return retrieve.getName();
+    }
+    
     @Override
     public OTStyleGraphManager2d retrieve(int key) {
         //  Extract OtGraphManagerStore from DB

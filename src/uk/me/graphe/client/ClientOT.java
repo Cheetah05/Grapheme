@@ -26,6 +26,7 @@ import uk.me.graphe.shared.messages.SetNameForIdMessage;
 import uk.me.graphe.shared.messages.StateIdMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
+import uk.me.graphe.shared.messages.OpenGraphMessage;
 import uk.me.graphe.shared.messages.operations.AddEdgeOperation;
 import uk.me.graphe.shared.messages.operations.AddNodeOperation;
 import uk.me.graphe.shared.messages.operations.CompositeOperation;
@@ -131,13 +132,13 @@ public class ClientOT {
     	mServer = true;
     }
     
-    public void requestGraph(){
+    public void requestGraph(final int id){
     	
         new Timer() {
 
             @Override
             public void run() {
-                mSc.send(new RequestGraphMessage(1, 0).toJson());
+                mSc.send(new RequestGraphMessage(id, 0).toJson());
                 Console.log("sent ogm");
                 Window.alert("SENT OGM");
                 mServer = true;
@@ -210,10 +211,12 @@ public class ClientOT {
             	}else if(uam.getEmailAddress() == "need"){
             		UserPanel.requestEmailAddress(uam);
             	}
-
+            } else if (m.getMessage().equals("openGraph")) {
+                OpenGraphMessage ogm = (OpenGraphMessage)m;
+                UserPanel.showGraph(ogm.getId());
             } else if (m.getMessage().equals("graphList")) {
             	GraphListMessage glm = (GraphListMessage)m;
-            	UserPanel.displayGraphList(glm.getGraphList());
+            	UserPanel.displayGraphList(glm.getGraphList(), glm.getNameList());
             } else if (m.getMessage().equals("chat")) {
                 // show message here
                 ChatMessage cm = (ChatMessage) m;
@@ -233,7 +236,6 @@ public class ClientOT {
 
         }
         Console.log("I have this many vertices:");
-        //Console.log("" + mGraph.getVertexDrawables().size());
 
         Console.log("done handling messages");
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.me.graphe.server.database.UserDatabase;
+import uk.me.graphe.server.database.Database;
 import uk.me.graphe.server.ot.GraphProcessor;
 import uk.me.graphe.server.UserAuth;
 import uk.me.graphe.shared.graphmanagers.OTGraphManager2d;
@@ -123,6 +124,7 @@ public class ClientMessageHandler extends Thread {
         } else if (message.getMessage().equals("chat")){
              System.err.println("got cm");
             ChatMessage cm = (ChatMessage) message;
+            cm.setUserId(mUserDatabase.getEmailFromId(c.getUserId()));
             for (Client otherClients : ClientManager.getInstance()
                     .clientsForGraph(c.getCurrentGraphId())) {
                 if (c != otherClients)
@@ -161,6 +163,8 @@ public class ClientMessageHandler extends Thread {
         			//create user if it doesn't exist
         			if(!mUserDatabase.exists(uam.getId(), uam.getEmailAddress())){
         				mUserDatabase.newUser(uam.getId(), uam.getEmailAddress());
+        				//TODO: remove this is it's for testing
+        				mUserDatabase.addGraph(uam.getId(), "1");
         			}
         			
         			String balls[] = mUserDatabase.getUserIDs();
@@ -184,8 +188,23 @@ public class ClientMessageHandler extends Thread {
         	}
         	
         } else if (message.getMessage().equals("graphList")){
-        	GraphListMessage glm = new GraphListMessage(mUserDatabase.getGraphs(c.getUserId()).toString());
-        	ClientMessageSender.getInstance().sendMessage(c, glm);
+            //get list of ids for this user
+            try{
+                List<String> ids = mUserDatabase.getGraphs(c.getUserId());
+                List<String> names = new ArrayList<String> ();
+                //get name of each graph
+                for (int i = 0; i < ids.size(); i++){
+                    System.err.println(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+                    names.add(DataManager.getGraphName(Integer.parseInt(ids.get(i))));
+                }
+    
+            	GraphListMessage glm = new GraphListMessage(ids.toString(), names.toString());
+            	ClientMessageSender.getInstance().sendMessage(c, glm);
+            	
+            }catch(NullPointerException e){
+                GraphListMessage glm = new GraphListMessage("","");
+                ClientMessageSender.getInstance().sendMessage(c, glm);
+            }
         } else if (message.getMessage().equals("sgp")) {
             SetGraphPropertiesMessage sgpm = (SetGraphPropertiesMessage) message;
             DataManager.setGraphProperties(c.getCurrentGraphId(), sgpm);
@@ -203,9 +222,16 @@ public class ClientMessageHandler extends Thread {
             }
         } else if (message.getMessage().equals("addPrivs")){
             AddPrivsMessage apm = (AddPrivsMessage) message;
-            mUserDatabase.setGraphsToUsers(apm.getEmailAddress(),c.getUserId());
-        }
-            else if (message.isOperation()) {
+            
+            if (apm.getGraphId().length() < 5){
+                mUserDatabase.setGraphsToUsers(apm.getEmailAddress(),
+                        Integer.toString(c.getCurrentGraphId()));
+            } else {
+                mUserDatabase.setGraphsToUsers(apm.getEmailAddress(),c.getUserId());
+            }
+        } else if (message.getMessage().equals("logout")){
+            c.setUserId("");
+        } else if (message.isOperation()) {
             mProcessor.submit(c, (GraphOperation) message);
         } else {
             throw new Error("got unexpected message from client");
