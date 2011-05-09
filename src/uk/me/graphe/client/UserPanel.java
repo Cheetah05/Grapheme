@@ -9,6 +9,7 @@ import uk.me.graphe.shared.messages.AddPrivsMessage;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
 import uk.me.graphe.shared.messages.LogoutMessage;
+import uk.me.graphe.shared.messages.MakeGraphMessage;
 import uk.me.graphe.client.Graphemeui;
 import uk.me.graphe.client.UserPanel;
 import uk.me.graphe.client.ClientOT;
@@ -80,7 +81,12 @@ public class UserPanel extends Composite implements EntryPoint {
     
     public static void clear(){
         //clears all ui elements
+        RootPanel.get("toolbox").clear();
         RootPanel.get("canvas").clear();
+        RootPanel.get("chat").clear();
+        RootPanel.get("graphInfo").clear();
+        RootPanel.get("ToolInfo").clear();
+        
         
     }
 	
@@ -105,51 +111,51 @@ public class UserPanel extends Composite implements EntryPoint {
 	    
 	}
 	
-	public static void requestEmailAddress(final UserAuthMessage uam){
-	      if(mode != "verify"){
-	            return;
-	        }
+    public static void requestEmailAddress(final UserAuthMessage uam){
+        if(mode != "verify"){
+            return;
+        }
 	        
-	        final VerticalPanel pnlEmailRequest = new VerticalPanel();
-	        final HorizontalPanel pnlEmail = new HorizontalPanel();
-	        final TextBox emailAddress = new TextBox();
-	        final Button submit = new Button("Submit");
-	        
-	        emailAddress.addKeyDownHandler(new KeyDownHandler()
-	        {
-	            @Override
-	            public void onKeyDown(KeyDownEvent kc)
-	            {
-	                if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-	                {
-	                    submit.click();
-	                }
-	            }
-	        });
-	        
-	        
-	        submit.addClickHandler(new ClickHandler() {
-	    
-	            public void onClick(ClickEvent event) {
-	                if (submit.getText() == null || submit.getText().isEmpty()) {
-	                    Window.alert("Please enter your email address.");
-	                    return;
-	                }
-	                pnlEmailRequest.clear();
-	                pnlEmailRequest.add(new HTML("Please wait..."));
-	                uam.setEmailAddress(emailAddress.getText());
-                    ServerChannel.getInstance().send(uam.toJson());
-	            }
-	        });
-	        
-	        RootPanel.get("canvas").clear();
-	        
-	        pnlEmail.add(emailAddress);
-	        pnlEmail.add(submit);
-	        pnlEmailRequest.add(new HTML("We couldn't get your e-mail address from your OpenID provider. Please enter it below:"));
-	        pnlEmailRequest.add(pnlEmail);
-	        
-	        RootPanel.get("canvas").add(pnlEmailRequest);
+        final VerticalPanel pnlEmailRequest = new VerticalPanel();
+        final HorizontalPanel pnlEmail = new HorizontalPanel();
+        final TextBox emailAddress = new TextBox();
+        final Button submit = new Button("Submit");
+        
+        emailAddress.addKeyDownHandler(new KeyDownHandler()
+        {
+            @Override
+            public void onKeyDown(KeyDownEvent kc)
+            {
+                if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+                {
+                    submit.click();
+                }
+            }
+        });
+        
+        
+        submit.addClickHandler(new ClickHandler() {
+    
+            public void onClick(ClickEvent event) {
+                if (submit.getText() == null || submit.getText().isEmpty()) {
+                    Window.alert("Please enter your email address.");
+                    return;
+                }
+                pnlEmailRequest.clear();
+                pnlEmailRequest.add(new HTML("Please wait..."));
+                uam.setEmailAddress(emailAddress.getText());
+                ServerChannel.getInstance().send(uam.toJson());
+            }
+        });
+        
+        RootPanel.get("canvas").clear();
+        
+        pnlEmail.add(emailAddress);
+        pnlEmail.add(submit);
+        pnlEmailRequest.add(new HTML("We couldn't get your e-mail address from your OpenID provider. Please enter it below:"));
+        pnlEmailRequest.add(pnlEmail);
+        
+        RootPanel.get("canvas").add(pnlEmailRequest);
 	}
 	
 	public static void verify(){
@@ -171,42 +177,6 @@ public class UserPanel extends Composite implements EntryPoint {
 			}
 		}; 
 		    timer.schedule(1000); 
-	}
-	
-	public static void getEmailAddress(){
-		
-	    final TextBox openIdUrl = new TextBox();
-	    final Button login = new Button("Sign in");
-	    
-		openIdUrl.addKeyDownHandler(new KeyDownHandler()
-		{
-			@Override
-			public void onKeyDown(KeyDownEvent kc)
-			{
-				if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-				{
-					login.click();
-				}
-			}
-		});
-	    
-	    
-	    login.addClickHandler(new ClickHandler() {
-	
-	        public void onClick(ClickEvent event) {
-	            if (openIdUrl.getText() == null || openIdUrl.getText().isEmpty()) {
-	            	Window.alert("Please enter your openIdUrl.");
-	                return;
-	            }
-	            String url = openIdUrl.getText();
-	            pnlUser.clear();
-	        	pnlUser.add(new HTML("Please wait..."));
-	        	UserAuthMessage uam = new UserAuthMessage(url);
-				ServerChannel.getInstance().send(uam.toJson());
-	        }
-	    });
-		
-		
 	}
 	
 	public static void showLogin(){
@@ -294,17 +264,18 @@ public class UserPanel extends Composite implements EntryPoint {
 		
 	}
 	
-	public void logout(){
+	public static void logout(){
         ServerChannel.getInstance().send(new LogoutMessage().toJson());
 	}
 	
-    public void shareGraph(String email, String graphId) {
+    public static void shareGraph(String email, String graphId) {
         AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
         ServerChannel.getInstance().send(apm.toJson());   
     }
     
-
-    
-    
+    public static void makeGraph() {
+        MakeGraphMessage mgm = new MakeGraphMessage();
+        ServerChannel.getInstance().send(mgm.toJson());   
+    }
 
 }
