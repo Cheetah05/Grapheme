@@ -211,7 +211,7 @@ public class ClientOT {
                 	String reUrl = uam.getRedirectionUrl();
                     Window.Location.assign(reUrl);
             	}else if(uam.getEmailAddress() == "need"){
-            		UserPanel.requestEmailAddress(uam);
+            		ClientEntry.requestEmail(uam);
             	}
             } else if (m.getMessage().equals("openGraph")) {
                 OpenGraphMessage ogm = (OpenGraphMessage)m;

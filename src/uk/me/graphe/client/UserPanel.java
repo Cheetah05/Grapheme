@@ -111,7 +111,7 @@ public class UserPanel extends Composite implements EntryPoint {
 	    
 	}
 	
-    public static void requestEmailAddress(final UserAuthMessage uam){
+    public static void DDrequestEmailAddress(final UserAuthMessage uam){
         if(mode != "verify"){
             return;
         }

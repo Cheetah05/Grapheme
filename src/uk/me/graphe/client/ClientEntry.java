@@ -71,4 +71,10 @@ public class ClientEntry implements EntryPoint
 		editor.show();
 		ClientOT.getInstance().requestGraph(id);
 	}
+	
+	public static void requestEmail (final UserAuthMessage uam)
+	{
+        uam.setEmailAddress("test@email.com");
+        ServerChannel.getInstance().send(uam.toJson());
+	}
 }
