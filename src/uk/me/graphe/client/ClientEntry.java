@@ -55,6 +55,7 @@ public class ClientEntry implements EntryPoint
 
 	public static void displayGraphList (String list, String nList)
 	{
+		Console.log("display graph list");
 		loadingScreen.hide();
 		
 		 Window.alert("trying to display graphs now john.");
