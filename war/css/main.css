@@ -9,11 +9,39 @@
   user-select: none;
 }
 
+.homePage {
+  background:url('../images/info.png') no-repeat;
+  padding: 40px 0 0 610px;
+  height: 700px;
+}
+
+.loginBox {
+  background: url('../images/openid.png') no-repeat +20px +10px;
+  border: 2px solid #ccc;
+  font: bold 13px arial;
+  padding: 55px 20px 15px 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.txtOpenId {
+  padding: 5px;
+  border: 2px solid #ccc;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  width: 250px;
+  font-size: 15px;
+  color: #444;
+}
+
 input {
   -moz-user-select: text;
   -khtml-user-select: text;
   -webkit-user-select: text;
   user-select: text;
+  border: 2px solid #ccc;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 body {
@@ -402,6 +430,14 @@ h1 {
 
 .btnHelpOff:hover {
   background: url(../images/helpOn.png) left center no-repeat;
+}
+
+.loadingDialog {
+  padding: 10px;
+  background-color: #fff;
+  border: 3px solid #fff; 
+  -moz-border-radius: 12px;
+  border-radius: 12px;
 }
 
 .optionsDialog {
