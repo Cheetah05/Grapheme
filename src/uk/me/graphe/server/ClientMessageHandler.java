@@ -124,6 +124,7 @@ public class ClientMessageHandler extends Thread {
         } else if (message.getMessage().equals("chat")){
              System.err.println("got cm");
             ChatMessage cm = (ChatMessage) message;
+            cm.setUserId(mUserDatabase.getEmailFromId(c.getUserId()));
             for (Client otherClients : ClientManager.getInstance()
                     .clientsForGraph(c.getCurrentGraphId())) {
                 if (c != otherClients)

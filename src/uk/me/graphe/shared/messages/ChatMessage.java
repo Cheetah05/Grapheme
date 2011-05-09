@@ -36,9 +36,13 @@ public class ChatMessage extends Message {
         return repr.toString();
 	}
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getUserId() {
+        return userId;
+    }   
+    
+    public void setUserId(String inp) {
+        userId = inp;
+    }
 
 	public String getText() {
 		return text;
