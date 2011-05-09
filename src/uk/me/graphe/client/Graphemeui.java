@@ -271,7 +271,8 @@ public class Graphemeui {
     	graphManager.setEdgeWeight(ed, weight);
     	Edge e = graphManager.getEdgeFromDrawable(ed);
     	ClientOT.getInstance().notifyRemoveEdge(e);
-    	ClientOT.getInstance().notifyAddEdge(e.getFromVertex(), e.getToVertex(), e.getDirection(), e.getWeight());
+    	ClientOT.getInstance().notifyAddEdge(e.getFromVertex(), e.getToVertex(), 
+    	        e.getDirection(), e.getWeight());
     	clearSelectedEdges();
     	graphManager.invalidate();
     }
@@ -329,14 +330,18 @@ public class Graphemeui {
         			secondEdge = true;
     			}
     			graphManager.removeEdge(e);
-    			graphManager.addEdge(e.getToVertex(), e.getFromVertex(), VertexDirection.fromTo, e.getWeight());
+    			graphManager.addEdge(e.getToVertex(), e.getFromVertex(), 
+    			        VertexDirection.fromTo, e.getWeight());
     			ClientOT.getInstance().notifyRemoveEdge(e);
-    			ClientOT.getInstance().notifyAddEdge(e.getToVertex(), e.getFromVertex(), VertexDirection.fromTo, e.getWeight());
+    			ClientOT.getInstance().notifyAddEdge(e.getToVertex(), 
+    			        e.getFromVertex(), VertexDirection.fromTo, e.getWeight());
 
     			if(secondEdge){
-    				graphManager.addEdge(e2.getToVertex(), e2.getFromVertex(), VertexDirection.fromTo, e2.getWeight());
+    				graphManager.addEdge(e2.getToVertex(), e2.getFromVertex(), 
+    				        VertexDirection.fromTo, e2.getWeight());
     				ClientOT.getInstance().notifyRemoveEdge(e2);
-        			ClientOT.getInstance().notifyAddEdge(e2.getToVertex(), e2.getFromVertex(), VertexDirection.fromTo, e2.getWeight());
+        			ClientOT.getInstance().notifyAddEdge(e2.getToVertex(), 
+        			        e2.getFromVertex(), VertexDirection.fromTo, e2.getWeight());
     			}
     		}
     		
@@ -351,14 +356,18 @@ public class Graphemeui {
         			secondEdge = true;
     			}
     			graphManager.removeEdge(e);
-    			graphManager.addEdge(e.getToVertex(), e.getFromVertex(), VertexDirection.toFrom, e.getWeight());
+    			graphManager.addEdge(e.getToVertex(), e.getFromVertex(), 
+    			        VertexDirection.toFrom, e.getWeight());
     			ClientOT.getInstance().notifyRemoveEdge(e);	
-    			ClientOT.getInstance().notifyAddEdge(e.getToVertex(), e.getFromVertex(), VertexDirection.toFrom, e.getWeight());  
+    			ClientOT.getInstance().notifyAddEdge(e.getToVertex(), e.getFromVertex(), 
+    			        VertexDirection.toFrom, e.getWeight());  
     			
     			if(secondEdge){
-    				graphManager.addEdge(e2.getFromVertex(), e2.getToVertex(), VertexDirection.toFrom, e2.getWeight());
+    				graphManager.addEdge(e2.getFromVertex(), e2.getToVertex(), 
+    				        VertexDirection.toFrom, e2.getWeight());
     				ClientOT.getInstance().notifyRemoveEdge(e2);
-        			ClientOT.getInstance().notifyAddEdge(e2.getFromVertex(), e2.getToVertex(), VertexDirection.toFrom, e2.getWeight());
+        			ClientOT.getInstance().notifyAddEdge(e2.getFromVertex(), e2.getToVertex(), 
+        			        VertexDirection.toFrom, e2.getWeight());
     			}
     		}
     	}
@@ -464,7 +473,8 @@ public class Graphemeui {
 		 * calculate absolute positions and this changes if you're zooming in or out.
 		 */
 
-		int left = (canvas.lMouseDown[X] - (int) (((canvas.lMouseDown[X] + drawing.getOffsetX()) * (zoom - ZOOM_STRENGTH)) / zoom));
+		int left = (canvas.lMouseDown[X] - (int) (((canvas.lMouseDown[X] + 
+		        drawing.getOffsetX()) * (zoom - ZOOM_STRENGTH)) / zoom));
 		int top = (canvas.lMouseDown[Y] - (int) (((canvas.lMouseDown[Y] + 
 				drawing.getOffsetY()) * (zoom - ZOOM_STRENGTH)) / zoom));
 

@@ -105,51 +105,51 @@ public class UserPanel extends Composite implements EntryPoint {
 	    
 	}
 	
-	public static void requestEmailAddress(final UserAuthMessage uam){
-	      if(mode != "verify"){
-	            return;
-	        }
+    public static void requestEmailAddress(final UserAuthMessage uam){
+        if(mode != "verify"){
+            return;
+        }
 	        
-	        final VerticalPanel pnlEmailRequest = new VerticalPanel();
-	        final HorizontalPanel pnlEmail = new HorizontalPanel();
-	        final TextBox emailAddress = new TextBox();
-	        final Button submit = new Button("Submit");
-	        
-	        emailAddress.addKeyDownHandler(new KeyDownHandler()
-	        {
-	            @Override
-	            public void onKeyDown(KeyDownEvent kc)
-	            {
-	                if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-	                {
-	                    submit.click();
-	                }
-	            }
-	        });
-	        
-	        
-	        submit.addClickHandler(new ClickHandler() {
-	    
-	            public void onClick(ClickEvent event) {
-	                if (submit.getText() == null || submit.getText().isEmpty()) {
-	                    Window.alert("Please enter your email address.");
-	                    return;
-	                }
-	                pnlEmailRequest.clear();
-	                pnlEmailRequest.add(new HTML("Please wait..."));
-	                uam.setEmailAddress(emailAddress.getText());
-                    ServerChannel.getInstance().send(uam.toJson());
-	            }
-	        });
-	        
-	        RootPanel.get("canvas").clear();
-	        
-	        pnlEmail.add(emailAddress);
-	        pnlEmail.add(submit);
-	        pnlEmailRequest.add(new HTML("We couldn't get your e-mail address from your OpenID provider. Please enter it below:"));
-	        pnlEmailRequest.add(pnlEmail);
-	        
-	        RootPanel.get("canvas").add(pnlEmailRequest);
+        final VerticalPanel pnlEmailRequest = new VerticalPanel();
+        final HorizontalPanel pnlEmail = new HorizontalPanel();
+        final TextBox emailAddress = new TextBox();
+        final Button submit = new Button("Submit");
+        
+        emailAddress.addKeyDownHandler(new KeyDownHandler()
+        {
+            @Override
+            public void onKeyDown(KeyDownEvent kc)
+            {
+                if (kc.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+                {
+                    submit.click();
+                }
+            }
+        });
+        
+        
+        submit.addClickHandler(new ClickHandler() {
+    
+            public void onClick(ClickEvent event) {
+                if (submit.getText() == null || submit.getText().isEmpty()) {
+                    Window.alert("Please enter your email address.");
+                    return;
+                }
+                pnlEmailRequest.clear();
+                pnlEmailRequest.add(new HTML("Please wait..."));
+                uam.setEmailAddress(emailAddress.getText());
+                ServerChannel.getInstance().send(uam.toJson());
+            }
+        });
+        
+        RootPanel.get("canvas").clear();
+        
+        pnlEmail.add(emailAddress);
+        pnlEmail.add(submit);
+        pnlEmailRequest.add(new HTML("We couldn't get your e-mail address from your OpenID provider. Please enter it below:"));
+        pnlEmailRequest.add(pnlEmail);
+        
+        RootPanel.get("canvas").add(pnlEmailRequest);
 	}
 	
 	public static void verify(){
@@ -302,9 +302,5 @@ public class UserPanel extends Composite implements EntryPoint {
         AddPrivsMessage apm = new AddPrivsMessage(email, graphId);
         ServerChannel.getInstance().send(apm.toJson());   
     }
-    
-
-    
-    
 
 }
