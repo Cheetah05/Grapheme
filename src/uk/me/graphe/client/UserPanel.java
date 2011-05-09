@@ -7,6 +7,7 @@ import uk.me.graphe.client.GraphList;
 import uk.me.graphe.client.communications.ServerChannel;
 import uk.me.graphe.shared.messages.UserAuthMessage;
 import uk.me.graphe.shared.messages.GraphListMessage;
+import uk.me.graphe.shared.messages.LogoutMessage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -255,6 +256,10 @@ public class UserPanel extends Composite {
 	
 	    RootPanel.get("canvas").add(outerPanel);
 		
+	}
+	
+	public void logout(){
+        ServerChannel.getInstance().send(new LogoutMessage().toJson());
 	}
 
 }

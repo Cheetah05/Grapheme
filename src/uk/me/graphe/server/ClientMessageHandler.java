@@ -222,6 +222,8 @@ public class ClientMessageHandler extends Thread {
         } else if (message.getMessage().equals("addPrivs")){
             AddPrivsMessage apm = (AddPrivsMessage) message;
             mUserDatabase.setGraphsToUsers(apm.getEmailAddress(),c.getUserId());
+        } else if (message.getMessage().equals("logout")){
+            c.setUserId("");
         } else if (message.isOperation()) {
             mProcessor.submit(c, (GraphOperation) message);
         } else {

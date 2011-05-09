@@ -28,6 +28,8 @@ import uk.me.graphe.shared.messages.factories.StateIdFactory;
 import uk.me.graphe.shared.messages.factories.UserAuthFactory;
 import uk.me.graphe.shared.messages.factories.GraphListFactory;
 import uk.me.graphe.shared.messages.factories.AddPrivsFactory;
+import uk.me.graphe.shared.messages.factories.LogoutFactory;
+
 
 public abstract class MessageFactory {
     private static Map<String, ConversionFactory> sOpFactoryMap = null;
@@ -55,6 +57,7 @@ public abstract class MessageFactory {
         sOpFactoryMap.put("setNameForId", new SetNameForIdFactory());
         sOpFactoryMap.put("sgp", new SetGraphPropertiesFactory());
         sOpFactoryMap.put("rename", new RenameNodeFactory());
+        sOpFactoryMap.put("logout", new LogoutFactory());
     }
 
     /**
