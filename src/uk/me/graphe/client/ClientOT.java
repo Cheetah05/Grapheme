@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import uk.me.graphe.client.communications.ReceiveNotificationRunner;
 import uk.me.graphe.client.communications.ServerChannel;
+import uk.me.graphe.client.dialogs.LoadingDialog;
 import uk.me.graphe.client.json.wrapper.JSOFactory;
 import uk.me.graphe.client.UserPanel;
 import uk.me.graphe.shared.Edge;
@@ -140,7 +141,7 @@ public class ClientOT {
             public void run() {
                 mSc.send(new RequestGraphMessage(id, 0).toJson());
                 Console.log("sent ogm");
-                Window.alert("SENT OGM");
+                //Window.alert("SENT OGM");
                 mServer = true;
                 mStore.resetServer();
                 mInfo = mStore.getInformation();
@@ -155,6 +156,7 @@ public class ClientOT {
             }
         }.schedule(1000);
     	
+        LoadingDialog.getInstance().hide("");
     }
 
     protected void pumpOut() {

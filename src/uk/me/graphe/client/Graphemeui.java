@@ -9,6 +9,7 @@ import uk.me.graphe.client.dialogs.EdgeDialog;
 import uk.me.graphe.client.dialogs.GraphNameDialog;
 import uk.me.graphe.client.dialogs.GraphOptionsDialog;
 import uk.me.graphe.client.dialogs.HelpDialog;
+import uk.me.graphe.client.dialogs.LoadingDialog;
 import uk.me.graphe.client.dialogs.ShareGraphDialog;
 import uk.me.graphe.client.dialogs.VertexDialog;
 import uk.me.graphe.client.json.wrapper.JSOFactory;
@@ -172,6 +173,14 @@ public class Graphemeui {
         
         ClientOT.getInstance().setOperatingGraph(this.graphManager);
         ClientOT.getInstance().passGraphemeUiInstance(this);
+    }
+    
+    public void hide() {
+        RootPanel.get("toolbox").add(this.tools);
+        RootPanel.get("canvas").add(this.canvas);
+        RootPanel.get("chat").add(this.chat);
+        RootPanel.get("graphInfo").add(this.graphInfo);
+        RootPanel.get("toolInfo").add(this.toolInfo);
     }
     
     

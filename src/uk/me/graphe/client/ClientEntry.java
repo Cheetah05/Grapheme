@@ -55,12 +55,11 @@ public class ClientEntry implements EntryPoint
 
 	public static void displayGraphList (String list, String nList)
 	{
-		Console.log("display graph list");
-		loadingScreen.hide();
+		//loadingScreen.hide("");
 		
-		 Window.alert("trying to display graphs now john.");
-	    Window.alert(list);
-	    Window.alert(nList);	   
+		displayGraph(1);
+
+		// TODO: Display graph here.
 	}
 
 	public static void displayGraph (int id)
@@ -69,8 +68,8 @@ public class ClientEntry implements EntryPoint
 
 		// TODO: Remove graph list from screen here.
 		
-		editor.show();
 		ClientOT.getInstance().requestGraph(id);
+		editor.show();
 	}
 	
 	public static void requestEmail (final UserAuthMessage uam)
